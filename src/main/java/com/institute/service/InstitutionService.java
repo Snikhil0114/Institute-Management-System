@@ -1,5 +1,6 @@
 package com.institute.service;
 
+import com.institute.config.TenantContext;
 import com.institute.model.Institution;
 import com.institute.repository.InstitutionRepository;
 import com.institute.config.MultiTenantDataSourceConfig;
@@ -29,6 +30,7 @@ public class InstitutionService {
 
         // Create a new database for the institution
         createNewDatabase(institution.getDbName());
+        TenantContext.setCurrentTenant(institution.getDbName());
 
         // Switch to the new database and initialize tables
         DataSource newDataSource = dataSourceConfig.resolveDataSource(institution.getDbName());
