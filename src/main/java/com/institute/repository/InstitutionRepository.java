@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface InstitutionRepository extends JpaRepository<Institution, Long> {
     Institution findByUsername(String username);
-    Institution findByDbName(String dbName);
+    Institution findByDbName(String DbName);
 }

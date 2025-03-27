@@ -1,47 +1,13 @@
-package com.institute.config;
-
-
-import com.zaxxer.hikari.HikariDataSource;
-import javax.sql.DataSource;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
-@Configuration
-
-@ConditionalOnMissingBean(DataSource.class)
-public class MultiTenantDataSourceConfig {
-
-    private final Map<String, DataSource> tenantDataSources = new HashMap<>();
-
-    public DataSource resolveDataSource(String dbName) {
-        return tenantDataSources.computeIfAbsent(dbName, this::createDataSource);
-    }
-
-    private DataSource createDataSource(String dbName) {
-        HikariDataSource dataSource = new HikariDataSource();
-        dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/" + dbName);
-        dataSource.setUsername("root");
-        dataSource.setPassword("Nikhil@0114");
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        return dataSource;
-    }
-}
-
-
 //package com.institute.config;
 //
-//import com.zaxxer.hikari.HikariDataSource;
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Configuration;
-//import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 //
+//import com.zaxxer.hikari.HikariDataSource;
 //import javax.sql.DataSource;
 //import java.util.HashMap;
 //import java.util.Map;
+//
+//import org.springframework.context.annotation.Bean;
+//import org.springframework.context.annotation.Configuration;
 //
 //@Configuration
 //public class MultiTenantDataSourceConfig {
@@ -60,14 +26,45 @@ public class MultiTenantDataSourceConfig {
 //        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
 //        return dataSource;
 //    }
-//
-//    @Bean
-//    public DataSource dataSource() {
-//        MultiTenantDataSource multiTenantDataSource = new MultiTenantDataSource();
-//        multiTenantDataSource.setTargetDataSources(new HashMap<>()); // Empty initially
-//        return multiTenantDataSource;
-//    }
 //}
+
+
+package com.institute.config;
+
+import com.zaxxer.hikari.HikariDataSource;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
+
+import javax.sql.DataSource;
+import java.util.HashMap;
+import java.util.Map;
+
+@Configuration
+public class MultiTenantDataSourceConfig {
+
+    private final Map<String, DataSource> tenantDataSources = new HashMap<>();
+
+    public DataSource resolveDataSource(String dbName) {
+        return tenantDataSources.computeIfAbsent(dbName, this::createDataSource);
+    }
+
+    private DataSource createDataSource(String dbName) {
+        HikariDataSource dataSource = new HikariDataSource();
+        dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/" + dbName);
+        dataSource.setUsername("root");
+        dataSource.setPassword("Nikhil@0114");
+        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        return dataSource;
+    }
+
+    @Bean
+    public DataSource dataSource() {
+        MultiTenantDataSource multiTenantDataSource = new MultiTenantDataSource();
+        multiTenantDataSource.setTargetDataSources(new HashMap<>()); // Empty initially
+        return multiTenantDataSource;
+    }
+}
 
 //
 //package com.institute.config;
