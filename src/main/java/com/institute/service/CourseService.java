@@ -2,8 +2,8 @@ package com.institute.service;
 
 import com.institute.config.MultiTenantDataSourceConfig;
 import com.institute.config.TenantContext;
-import com.institute.model.Department;
-import com.institute.repository.DepartmentRepository;
+import com.institute.model.Course;
+import com.institute.repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,15 +12,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class DepartmentService {
+public class CourseService {
     @Autowired
-    private DepartmentRepository departmentRepository;
+    private CourseRepository courseRepository;
     @Autowired
     private MultiTenantDataSourceConfig multiTenantDataSourceConfig;
 
-    public Department addDepartment(Department department){
+    public Course addCourse(Course course){
         String tenant= TenantContext.getCurrentTenant();
-        System.out.println("Current Tenant in DepartmentService"+tenant);
+        System.out.println("Current Tenant in CourseService: "+tenant);
         if (tenant==null){
            throw new RuntimeException("No Tenant Selected");
         }
@@ -28,48 +28,49 @@ public class DepartmentService {
 //        JdbcTemplate jdbcTemplate=new JdbcTemplate(dataSource);
 //        String insertQuery= "INSERT INTO Department(name,code,duration)"+"Values(?,?,?)";
 //        jdbcTemplate.update(insertQuery,Department.getName(),Department.getCode(),Department.getDuration());
-        return departmentRepository.save(department);
+Course saveCourse=courseRepository.save(course);
+        return saveCourse;
     }
-    public List<Department> getAll(){
+    public List<Course> getAll(){
         String tenant= TenantContext.getCurrentTenant();
-        System.out.println("Current Tenant in DepartmentService"+tenant);
+        System.out.println("Current Tenant in CourseService: "+tenant);
         if (tenant==null){
             throw new RuntimeException("No Tenant Selected");
         }
         DataSource dataSource=multiTenantDataSourceConfig.resolveDataSource(tenant);
-        return departmentRepository.findAll();
+        return courseRepository.findAll();
     }
-    public Department updateDepartment(Long id, Department updatedDepartment) {
+    public Course updateCourse(Long id, Course updatedDepartment) {
         String tenant = TenantContext.getCurrentTenant();
-        System.out.println("Current Tenant in DepartmentService: " + tenant);
+        System.out.println("Current Tenant in CourseService: " + tenant);
         if (tenant == null) {
             throw new RuntimeException("No Tenant Selected");
         }
         DataSource dataSource = multiTenantDataSourceConfig.resolveDataSource(tenant);
 
-        Optional<Department> existingCourse = departmentRepository.findById(id);
+        Optional<Course> existingCourse = courseRepository.findById(id);
         if (existingCourse.isPresent()) {
-            Department Department = existingCourse.get();
-            Department.setName(updatedDepartment.getName());
-            Department.setCode(updatedDepartment.getCode());
-            Department.setDuration(updatedDepartment.getDuration());
-            return departmentRepository.save(Department);
+            Course course = existingCourse.get();
+            course.setName(updatedDepartment.getName());
+            course.setCode(updatedDepartment.getCode());
+            course.setDuration(updatedDepartment.getDuration());
+            return courseRepository.save(course);
         } else {
-            throw new RuntimeException("Department not found with id: " + id);
+            throw new RuntimeException("Course not found with id: " + id);
         }
     }
-    public void deleteDepartment(Long id) {
+    public void deleteCourse(Long id) {
         String tenant = TenantContext.getCurrentTenant();
-        System.out.println("Current Tenant in DepartmentService: " + tenant);
+        System.out.println("Current Tenant in CourseService: " + tenant);
         if (tenant == null) {
             throw new RuntimeException("No Tenant Selected");
         }
         DataSource dataSource = multiTenantDataSourceConfig.resolveDataSource(tenant);
 
-        if (departmentRepository.existsById(id)) {
-            departmentRepository.deleteById(id);
+        if (courseRepository.existsById(id)) {
+            courseRepository.deleteById(id);
         } else {
-            throw new RuntimeException("Department not found with id: " + id);
+            throw new RuntimeException("Course not found with Id: " + id);
         }
     }
 

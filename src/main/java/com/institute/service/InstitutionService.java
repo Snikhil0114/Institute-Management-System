@@ -46,7 +46,7 @@ public class InstitutionService {
         JdbcTemplate newJdbcTemplate = new JdbcTemplate(dataSource);
 
         // Create Student Table
-        newJdbcTemplate.execute("CREATE TABLE IF NOT EXISTS Department (" +
+        newJdbcTemplate.execute("CREATE TABLE IF NOT EXISTS Course (" +
                 "id BIGINT AUTO_INCREMENT PRIMARY KEY, " +
                 "Name VARCHAR(255), " +
                 "code BIGINT, " +
