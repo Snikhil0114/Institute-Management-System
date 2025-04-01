@@ -4,20 +4,19 @@ import com.institute.model.Course;
 import com.institute.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
+@RequestMapping("/course")
 public class CourseController {
     @Autowired
     private CourseService courseService;
 
    @PostMapping("/addCourse")
    public Course addCourses(@RequestBody Course course){
-        return courseService.addCourse(course);
+        return courseService.addCourses(course);
     }
     @GetMapping("/get/all")
     public List<Course> getAllCourse(){

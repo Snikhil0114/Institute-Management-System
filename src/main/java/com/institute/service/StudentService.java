@@ -47,9 +47,7 @@ public class StudentService {
 
         //3 : by Using Data Spring JPA
         Student savedStudent=studentRepository.save(student);
-
         System.out.println("✅ Student added to database: " + tenant);
-
         return savedStudent;
     }
 

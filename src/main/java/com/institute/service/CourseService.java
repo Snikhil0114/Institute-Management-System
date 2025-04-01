@@ -18,7 +18,7 @@ public class CourseService {
     @Autowired
     private MultiTenantDataSourceConfig multiTenantDataSourceConfig;
 
-    public Course addCourse(Course course){
+    public Course addCourses(Course course){
         String tenant= TenantContext.getCurrentTenant();
         System.out.println("Current Tenant in CourseService: "+tenant);
         if (tenant==null){
@@ -28,7 +28,7 @@ public class CourseService {
 //        JdbcTemplate jdbcTemplate=new JdbcTemplate(dataSource);
 //        String insertQuery= "INSERT INTO Department(name,code,duration)"+"Values(?,?,?)";
 //        jdbcTemplate.update(insertQuery,Department.getName(),Department.getCode(),Department.getDuration());
-Course saveCourse=courseRepository.save(course);
+        Course saveCourse=courseRepository.save(course);
         return saveCourse;
     }
     public List<Course> getAll(){
